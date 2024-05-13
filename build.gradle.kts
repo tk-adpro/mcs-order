@@ -65,8 +65,8 @@ tasks.test {
 }
 
 pmd {
-    toolVersion.set("7.0.0-rc4")
-    sourceSets = listOf(sourceSets.main)
+    toolVersion = "7.0.0-rc4"
+    sourceSets = listOf(sourceSets["main"])
     ruleSets = listOf("rulesets/java/quickstart.xml", "ruleset.xml")
     isIgnoreFailures = true
     reports {
