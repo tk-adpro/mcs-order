@@ -1,9 +1,8 @@
 // OrderControllerTest.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.order.controller;
 
-import id.ac.ui.cs.advprog.eshop.mcsorder.order.controller.OrderController;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.domain.OrderService;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
-import id.ac.ui.cs.advprog.eshop.mcsorder.order.service.OrderService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
