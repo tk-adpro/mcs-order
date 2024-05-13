@@ -3,9 +3,6 @@ package id.ac.ui.cs.advprog.eshop.mcsorder.order.model;
 
 import org.junit.jupiter.api.Test;
 
-import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
-import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.OrderItem;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
