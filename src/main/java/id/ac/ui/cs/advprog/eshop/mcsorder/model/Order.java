@@ -11,8 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import lombok.Getter; 
 import lombok.Setter;
+
+import id.ac.ui.cs.advprog.eshop.mcsorder.observer.OrderStatusObserver;
 
 @Entity
 @Getter
@@ -27,5 +30,26 @@ public class Order {
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
-    
+
+    @Transient
+    private List<OrderStatusObserver> observers = new ArrayList<>();
+
+    public void addObserver(OrderStatusObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(OrderStatusObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyObservers(String status) {
+        for (OrderStatusObserver observer : observers) {
+            observer.update(status);
+        }
+    }
+
+    public void setStatus(String status) {
+        notifyObservers(status);
+    }
 }
+
