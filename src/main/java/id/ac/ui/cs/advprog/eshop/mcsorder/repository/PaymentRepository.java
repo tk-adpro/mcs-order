@@ -1,9 +1,9 @@
+// PaymentRepository.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.repository;
 
-import org.springframework.stereotype.Repository;
+import id.ac.ui.cs.advprog.eshop.mcsorder.model.Payment;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface PaymentRepository {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
     
 }
-

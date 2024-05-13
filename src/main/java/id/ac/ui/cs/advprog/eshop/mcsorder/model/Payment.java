@@ -1,15 +1,26 @@
+// Payment.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.model;
-import lombok.Getter; 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Payment Model
- */
-@Getter @Setter
+import java.time.LocalDateTime;
+
+
+@Entity
+@Getter
+@Setter
 public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private Long orderId;
-    private Double amount;
-    private String paymentMethod;
+    private double amount;
+    private LocalDateTime paymentDate;
     private String status;
 }
