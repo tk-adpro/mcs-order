@@ -1,3 +1,4 @@
+// CustomerNotifier.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.observer;
 
 public class CustomerNotifier implements OrderStatusObserver {

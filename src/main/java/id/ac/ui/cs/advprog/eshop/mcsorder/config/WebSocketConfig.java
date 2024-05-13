@@ -1,3 +1,4 @@
+// WebSocketConfig.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.config;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.websocket.OrderWebSocketHandler;
