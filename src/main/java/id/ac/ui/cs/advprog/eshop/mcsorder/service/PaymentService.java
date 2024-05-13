@@ -2,6 +2,7 @@
 package id.ac.ui.cs.advprog.eshop.mcsorder.service;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.exception.PaymentNotFoundException;
+import id.ac.ui.cs.advprog.eshop.mcsorder.factory.PaymentFactory;
 import id.ac.ui.cs.advprog.eshop.mcsorder.model.Payment;
 import id.ac.ui.cs.advprog.eshop.mcsorder.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,9 @@ public class PaymentService {
     }
 
     @Async
-    public CompletableFuture<Payment> processPaymentAsync(Payment payment) {
+    public CompletableFuture<Payment> processPaymentAsync(Long orderId, double amount, String status) {
         return CompletableFuture.supplyAsync(() -> {
+            Payment payment = PaymentFactory.createPayment(orderId, amount, status);
             return paymentRepository.save(payment);
         });
     }

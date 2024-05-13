@@ -1,0 +1,8 @@
+package id.ac.ui.cs.advprog.eshop.mcsorder.strategy;
+
+public class GopayPayment implements PaymentStrategy {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid " + amount + " using Gopay.");
+    }
+}

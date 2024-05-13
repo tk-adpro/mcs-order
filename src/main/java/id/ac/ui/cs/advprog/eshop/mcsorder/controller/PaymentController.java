@@ -1,6 +1,7 @@
 // PaymentController.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.controller;
 
+import id.ac.ui.cs.advprog.eshop.mcsorder.dto.PaymentRequest;
 import id.ac.ui.cs.advprog.eshop.mcsorder.model.Payment;
 import id.ac.ui.cs.advprog.eshop.mcsorder.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,15 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/api/payments")
 public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
 
     @PostMapping
-    public CompletableFuture<ResponseEntity<Payment>> createPayment(@RequestBody Payment payment) {
-        return paymentService.processPaymentAsync(payment)
+    public CompletableFuture<ResponseEntity<Payment>> createPayment(@RequestBody PaymentRequest paymentRequest) {
+        return paymentService.processPaymentAsync(paymentRequest.getOrderId(), paymentRequest.getAmount(), paymentRequest.getStatus())
                 .thenApply(ResponseEntity::ok);
     }
 
