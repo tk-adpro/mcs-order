@@ -1,5 +1,5 @@
 // PaymentControllerTest.java
-package id.ac.ui.cs.advprog.eshop.mcsorder.controller;
+package id.ac.ui.cs.advprog.eshop.mcsorder.payment.controller;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.controller.PaymentController;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;

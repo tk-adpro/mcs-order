@@ -1,5 +1,5 @@
 // PaymentRepositoryTest.java
-package id.ac.ui.cs.advprog.eshop.mcsorder.repository;
+package id.ac.ui.cs.advprog.eshop.mcsorder.payment.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

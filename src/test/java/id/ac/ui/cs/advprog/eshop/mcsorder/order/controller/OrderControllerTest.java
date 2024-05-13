@@ -1,5 +1,5 @@
 // OrderControllerTest.java
-package id.ac.ui.cs.advprog.eshop.mcsorder.controller;
+package id.ac.ui.cs.advprog.eshop.mcsorder.order.controller;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.controller.OrderController;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;

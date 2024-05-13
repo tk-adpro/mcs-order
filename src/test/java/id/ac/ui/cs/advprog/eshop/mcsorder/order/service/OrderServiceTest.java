@@ -1,5 +1,5 @@
 // OrderServiceTest.java
-package id.ac.ui.cs.advprog.eshop.mcsorder.service;
+package id.ac.ui.cs.advprog.eshop.mcsorder.order.service;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.exception.OrderNotFoundException;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;

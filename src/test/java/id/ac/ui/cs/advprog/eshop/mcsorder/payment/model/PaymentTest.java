@@ -1,5 +1,5 @@
 // PaymentTest.java
-package id.ac.ui.cs.advprog.eshop.mcsorder.model;
+package id.ac.ui.cs.advprog.eshop.mcsorder.payment.model;
 
 import org.junit.jupiter.api.Test;
 
