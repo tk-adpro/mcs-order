@@ -30,8 +30,6 @@ jobs:
           sourcePath: 'src/main/java'
           rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
           analyzeModifiedFilesOnly: false
-          format: 'sarif'
-          outputFile: 'pmd-report.sarif'
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
