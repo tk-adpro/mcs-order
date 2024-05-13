@@ -1,10 +1,10 @@
 // PaymentServiceTest.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.payment.service;
 
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.domain.PaymentService;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.exception.PaymentNotFoundException;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.repository.PaymentRepository;
-import id.ac.ui.cs.advprog.eshop.mcsorder.payment.service.PaymentService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
