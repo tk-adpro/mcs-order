@@ -1,22 +1,14 @@
-// OrderController.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.order.controller;
+
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.domain.OrderService;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.dto.OrderRequest;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import id.ac.ui.cs.advprog.eshop.mcsorder.order.dto.OrderRequest;
-import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
-import id.ac.ui.cs.advprog.eshop.mcsorder.order.service.OrderService;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -27,25 +19,23 @@ public class OrderController {
 
     @PostMapping
     public CompletableFuture<ResponseEntity<Order>> createOrder(@RequestBody OrderRequest orderRequest) {
-        return orderService.createOrderAsync(
-            orderRequest.getCustomerName(), 
-            orderRequest.getItems())
-            .thenApply(ResponseEntity::ok);
+        return orderService.createOrderAsync(orderRequest.getCustomerName(), orderRequest.getItems())
+                .thenApply(ResponseEntity::ok);
     }
 
     @GetMapping
-    public List<Order> getAllOrders() {
-        return orderService.getAllOrders();
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
-    
+
     @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrderById(id));
     }
-    
+
     @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
+        return ResponseEntity.ok().build();
     }
 }
-

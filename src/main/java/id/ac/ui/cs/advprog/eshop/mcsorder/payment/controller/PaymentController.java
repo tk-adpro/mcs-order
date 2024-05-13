@@ -1,10 +1,8 @@
-// PaymentController.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.payment.controller;
 
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.domain.PaymentService;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.dto.PaymentRequest;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;
-import id.ac.ui.cs.advprog.eshop.mcsorder.payment.service.PaymentService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,17 +24,18 @@ public class PaymentController {
     }
 
     @GetMapping
-    public List<Payment> getAllPayments() {
-        return paymentService.getAllPayments();
+    public ResponseEntity<List<Payment>> getAllPayments() {
+        return ResponseEntity.ok(paymentService.getAllPayments());
     }
 
     @GetMapping("/{id}")
-    public Payment getPaymentById(@PathVariable Long id) {
-        return paymentService.getPaymentById(id);
+    public ResponseEntity<Payment> getPaymentById(@PathVariable Long id) {
+        return ResponseEntity.ok(paymentService.getPaymentById(id));
     }
 
     @DeleteMapping("/{id}")
-    public void deletePayment(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePayment(@PathVariable Long id) {
         paymentService.deletePayment(id);
+        return ResponseEntity.ok().build();
     }
 }
