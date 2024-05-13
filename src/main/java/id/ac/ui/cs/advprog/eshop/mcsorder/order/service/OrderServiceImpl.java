@@ -7,6 +7,7 @@ import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.OrderItem;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +20,14 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @Override
     public Order createOrder(Order order) {
-        return orderRepository.save(order);
+        Order createdOrder = orderRepository.save(order);
+        messagingTemplate.convertAndSend("/topic/orders", "Order created: " + createdOrder.getId());
+        return createdOrder;
     }
 
     @Override
@@ -29,7 +35,9 @@ public class OrderServiceImpl implements OrderService {
     public CompletableFuture<Order> createOrderAsync(String customerName, List<OrderItem> items) {
         return CompletableFuture.supplyAsync(() -> {
             Order order = OrderFactory.createOrder(customerName, items);
-            return orderRepository.save(order);
+            Order createdOrder = orderRepository.save(order);
+            messagingTemplate.convertAndSend("/topic/orders", "Order created: " + createdOrder.getId());
+            return createdOrder;
         });
     }
 
@@ -46,5 +54,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
+        messagingTemplate.convertAndSend("/topic/orders", "Order deleted: " + id);
     }
 }
