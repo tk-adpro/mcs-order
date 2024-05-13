@@ -1,9 +1,10 @@
 package id.ac.ui.cs.advprog.eshop.mcsorder.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface OrderRepository  {
+import id.ac.ui.cs.advprog.eshop.mcsorder.model.Order;
+
+// OrderRepository.java
+public interface OrderRepository extends JpaRepository<Order, Long> {
     
 }
-

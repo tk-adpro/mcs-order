@@ -1,18 +1,31 @@
+// Order.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.model;
 
-import lombok.Getter; 
-import lombok.Setter;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Order Model
- */
-@Getter @Setter
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.Getter; 
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long customerId;
-    private List<OrderItem> items;
-    private Double total;
-    private Date orderDate;
+    
+    private LocalDateTime orderDate;
+    private String customerName;
+    
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> items = new ArrayList<>();
+    
 }
