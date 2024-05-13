@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
     jacoco
+    pmd
 }
 
 group = "id.ac.ui.cs.advprog.eshop"
@@ -61,4 +62,15 @@ tasks.withType<Test> {
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) 
+}
+
+pmd {
+    toolVersion = '7.0.0-rc4'
+    sourceSets = [sourceSets.main]
+    ruleSets = ['rulesets/java/quickstart.xml', 'ruleset.xml']
+    ignoreFailures = true
+    reports {
+        xml.enabled = true
+        xml.destination = file("build/reports/pmd/main.xml")
+    }
 }
