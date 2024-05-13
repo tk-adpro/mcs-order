@@ -66,9 +66,12 @@ tasks.test {
 
 pmd {
     toolVersion = "7.0.0-rc4"
-    sourceSets = listOf(project.sourceSets.getByName("main"))
+    sourceSets = listOf(project.sourceSets.main.get())
     ruleSets = listOf("rulesets/java/quickstart.xml", "ruleset.xml")
     isIgnoreFailures = true
+}
+
+tasks.withType<Pmd> {
     reports {
         xml.required.set(true)
         xml.outputLocation.set(file("build/reports/pmd/main.xml"))
