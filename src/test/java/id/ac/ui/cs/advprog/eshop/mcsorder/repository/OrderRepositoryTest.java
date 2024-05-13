@@ -1,12 +1,13 @@
 // OrderRepositoryTest.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.repository;
 
-import id.ac.ui.cs.advprog.eshop.mcsorder.model.Order;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.repository.OrderRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,8 +1,10 @@
 // PaymentControllerTest.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.controller;
 
-import id.ac.ui.cs.advprog.eshop.mcsorder.model.Payment;
-import id.ac.ui.cs.advprog.eshop.mcsorder.service.PaymentService;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.controller.PaymentController;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.service.PaymentService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

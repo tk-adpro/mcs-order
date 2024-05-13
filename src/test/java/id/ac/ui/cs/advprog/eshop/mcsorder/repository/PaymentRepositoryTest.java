@@ -1,10 +1,12 @@
 // PaymentRepositoryTest.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.repository;
 
-import id.ac.ui.cs.advprog.eshop.mcsorder.model.Payment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.repository.PaymentRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

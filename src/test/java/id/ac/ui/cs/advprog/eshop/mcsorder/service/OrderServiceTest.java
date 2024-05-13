@@ -1,9 +1,10 @@
 // OrderServiceTest.java
 package id.ac.ui.cs.advprog.eshop.mcsorder.service;
 
-import id.ac.ui.cs.advprog.eshop.mcsorder.exception.OrderNotFoundException;
-import id.ac.ui.cs.advprog.eshop.mcsorder.model.Order;
-import id.ac.ui.cs.advprog.eshop.mcsorder.repository.OrderRepository;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.exception.OrderNotFoundException;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.repository.OrderRepository;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.service.OrderService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

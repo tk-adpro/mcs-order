@@ -2,6 +2,10 @@
 package id.ac.ui.cs.advprog.eshop.mcsorder.model;
 
 import org.junit.jupiter.api.Test;
+
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.OrderItem;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderItemTest {

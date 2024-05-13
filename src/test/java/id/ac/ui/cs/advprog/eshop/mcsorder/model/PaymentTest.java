@@ -3,6 +3,8 @@ package id.ac.ui.cs.advprog.eshop.mcsorder.model;
 
 import org.junit.jupiter.api.Test;
 
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;
+
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
