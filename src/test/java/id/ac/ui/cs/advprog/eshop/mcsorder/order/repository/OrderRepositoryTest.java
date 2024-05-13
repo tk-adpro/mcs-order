@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
-import id.ac.ui.cs.advprog.eshop.mcsorder.order.repository.OrderRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
