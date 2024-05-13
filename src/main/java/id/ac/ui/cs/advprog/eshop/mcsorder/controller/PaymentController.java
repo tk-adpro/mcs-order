@@ -4,9 +4,11 @@ package id.ac.ui.cs.advprog.eshop.mcsorder.controller;
 import id.ac.ui.cs.advprog.eshop.mcsorder.model.Payment;
 import id.ac.ui.cs.advprog.eshop.mcsorder.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/payments")
@@ -16,8 +18,9 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @PostMapping
-    public Payment createPayment(@RequestBody Payment payment) {
-        return paymentService.createPayment(payment);
+    public CompletableFuture<ResponseEntity<Payment>> createPayment(@RequestBody Payment payment) {
+        return paymentService.processPaymentAsync(payment)
+                .thenApply(ResponseEntity::ok);
     }
 
     @GetMapping

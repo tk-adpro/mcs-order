@@ -1,8 +1,10 @@
 package id.ac.ui.cs.advprog.eshop.mcsorder.service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.exception.OrderNotFoundException;
@@ -17,6 +19,13 @@ public class OrderService {
 
     public Order createOrder(Order order) {
         return orderRepository.save(order);
+    }
+
+    @Async
+    public CompletableFuture<Order> createOrderAsync(Order order) {
+        return CompletableFuture.supplyAsync(() -> {
+            return orderRepository.save(order);
+        });
     }
 
     public List<Order> getAllOrders() {
