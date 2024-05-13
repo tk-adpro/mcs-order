@@ -3,7 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
     jacoco
-    pmd
+    id("pmd")
 }
 
 group = "id.ac.ui.cs.advprog.eshop"
@@ -65,12 +65,12 @@ tasks.test {
 }
 
 pmd {
-    toolVersion = '7.0.0-rc4'
-    sourceSets = [sourceSets.main]
-    ruleSets = ['rulesets/java/quickstart.xml', 'ruleset.xml']
-    ignoreFailures = true
+    toolVersion.set("7.0.0-rc4")
+    sourceSets = listOf(sourceSets.main)
+    ruleSets = listOf("rulesets/java/quickstart.xml", "ruleset.xml")
+    isIgnoreFailures = true
     reports {
-        xml.enabled = true
-        xml.destination = file("build/reports/pmd/main.xml")
+        xml.required.set(true)
+        xml.outputLocation.set(file("build/reports/pmd/main.xml"))
     }
 }
