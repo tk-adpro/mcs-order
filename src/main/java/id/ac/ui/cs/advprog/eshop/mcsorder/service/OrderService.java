@@ -8,7 +8,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.exception.OrderNotFoundException;
+import id.ac.ui.cs.advprog.eshop.mcsorder.factory.OrderFactory;
 import id.ac.ui.cs.advprog.eshop.mcsorder.model.Order;
+import id.ac.ui.cs.advprog.eshop.mcsorder.model.OrderItem;
 import id.ac.ui.cs.advprog.eshop.mcsorder.repository.OrderRepository;
 
 @Service
@@ -22,8 +24,9 @@ public class OrderService {
     }
 
     @Async
-    public CompletableFuture<Order> createOrderAsync(Order order) {
+    public CompletableFuture<Order> createOrderAsync(String customerName, List<OrderItem> items) {
         return CompletableFuture.supplyAsync(() -> {
+            Order order = OrderFactory.createOrder(customerName, items);
             return orderRepository.save(order);
         });
     }
