@@ -44,6 +44,7 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
+     implementation("io.micrometer:micrometer-core")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")

@@ -26,7 +26,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
-
     @ExceptionHandler(PaymentNotFoundException.class)
     public ResponseEntity<Object> handlePaymentNotFoundException(PaymentNotFoundException ex, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
