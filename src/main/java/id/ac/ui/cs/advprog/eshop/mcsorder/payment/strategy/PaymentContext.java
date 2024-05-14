@@ -2,13 +2,13 @@
 package id.ac.ui.cs.advprog.eshop.mcsorder.payment.strategy;
 
 public class PaymentContext {
-    private PaymentStrategy strategy;
+    private PaymentStrategy paymentStrategy;
 
-    public void setPaymentStrategy(PaymentStrategy strategy) {
-        this.strategy = strategy;
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
     }
 
-    public void executePayment(double amount) {
-        strategy.pay(amount);
+    public void pay(double amount) {
+        paymentStrategy.pay(amount);
     }
 }
