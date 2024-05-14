@@ -6,9 +6,10 @@ import id.ac.ui.cs.advprog.eshop.mcsorder.order.exception.OrderNotFoundException
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.factory.OrderFactory;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.Order;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.OrderItem;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.observer.OrderNotificationService;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.observer.OrderSubject;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,19 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    private OrderNotificationService notificationService;
+
+    private final OrderSubject orderSubject = new OrderSubject();
+
+    public OrderServiceImpl(OrderNotificationService notificationService) {
+        this.notificationService = notificationService;
+        orderSubject.addObserver(notificationService);
+    }
 
     @Override
     public Order createOrder(Order order) {
         Order createdOrder = orderRepository.save(order);
-        messagingTemplate.convertAndSend("/topic/orders", "Order created: " + createdOrder.getId());
+        orderSubject.notifyObservers("Order created: " + createdOrder.getId());
         return createdOrder;
     }
 
@@ -37,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
         return CompletableFuture.supplyAsync(() -> {
             Order order = OrderFactory.createOrder(customerName, items);
             Order createdOrder = orderRepository.save(order);
-            messagingTemplate.convertAndSend("/topic/orders", "Order created: " + createdOrder.getId());
+            orderSubject.notifyObservers("Order created: " + createdOrder.getId());
             return createdOrder;
         });
     }
@@ -55,6 +63,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
-        messagingTemplate.convertAndSend("/topic/orders", "Order deleted: " + id);
+        orderSubject.notifyObservers("Order deleted: " + id);
     }
 }

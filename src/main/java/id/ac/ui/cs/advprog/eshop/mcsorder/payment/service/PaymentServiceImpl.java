@@ -5,9 +5,10 @@ import id.ac.ui.cs.advprog.eshop.mcsorder.payment.domain.PaymentService;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.exception.PaymentNotFoundException;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.factory.PaymentFactory;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.observer.PaymentNotificationService;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.observer.PaymentSubject;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,19 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentRepository paymentRepository;
 
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    private PaymentNotificationService notificationService;
+
+    private final PaymentSubject paymentSubject = new PaymentSubject();
+
+    public PaymentServiceImpl(PaymentNotificationService notificationService) {
+        this.notificationService = notificationService;
+        paymentSubject.addObserver(notificationService);
+    }
 
     @Override
     public Payment createPayment(Payment payment) {
         Payment createdPayment = paymentRepository.save(payment);
-        messagingTemplate.convertAndSend("/topic/payments", "Payment created: " + createdPayment.getId());
+        paymentSubject.notifyObservers("Payment created: " + createdPayment.getId());
         return createdPayment;
     }
 
@@ -36,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
         return CompletableFuture.supplyAsync(() -> {
             Payment payment = PaymentFactory.createPayment(orderId, amount, status);
             Payment createdPayment = paymentRepository.save(payment);
-            messagingTemplate.convertAndSend("/topic/payments", "Payment processed: " + createdPayment.getId());
+            paymentSubject.notifyObservers("Payment processed: " + createdPayment.getId());
             return createdPayment;
         });
     }
@@ -54,6 +62,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void deletePayment(Long id) {
         paymentRepository.deleteById(id);
-        messagingTemplate.convertAndSend("/topic/payments", "Payment deleted: " + id);
+        paymentSubject.notifyObservers("Payment deleted: " + id);
     }
 }
