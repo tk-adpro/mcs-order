@@ -9,6 +9,7 @@ import id.ac.ui.cs.advprog.eshop.mcsorder.payment.observer.PaymentNotificationSe
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.observer.PaymentSubject;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +22,11 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    @Autowired
-    private PaymentNotificationService notificationService;
+    private final PaymentSubject paymentSubject;
 
-    private final PaymentSubject paymentSubject = new PaymentSubject();
-
-    public PaymentServiceImpl(PaymentNotificationService notificationService) {
-        this.notificationService = notificationService;
-        paymentSubject.addObserver(notificationService);
+    public PaymentServiceImpl(SimpMessagingTemplate messagingTemplate) {
+        this.paymentSubject = new PaymentSubject();
+        paymentSubject.addObserver(new PaymentNotificationService(messagingTemplate));
     }
 
     @Override

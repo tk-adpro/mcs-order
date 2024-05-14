@@ -10,6 +10,7 @@ import id.ac.ui.cs.advprog.eshop.mcsorder.order.observer.OrderNotificationServic
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.observer.OrderSubject;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    private OrderNotificationService notificationService;
+    private final OrderSubject orderSubject;
 
-    private final OrderSubject orderSubject = new OrderSubject();
-
-    public OrderServiceImpl(OrderNotificationService notificationService) {
-        this.notificationService = notificationService;
-        orderSubject.addObserver(notificationService);
+    public OrderServiceImpl(SimpMessagingTemplate messagingTemplate) {
+        this.orderSubject = new OrderSubject();
+        orderSubject.addObserver(new OrderNotificationService(messagingTemplate));
     }
 
     @Override
