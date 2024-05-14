@@ -10,7 +10,6 @@ public class GopayPayment implements PaymentStrategy {
 
     @Override
     public void pay(double amount) {
-        // Simulasi logika pembayaran dengan GoPay
         System.out.println("Paid " + amount + " using GoPay.");
         System.out.println("GoPay ID: " + gopayId);
     }

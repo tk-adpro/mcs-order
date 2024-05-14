@@ -20,7 +20,12 @@ public class PaymentController {
 
     @PostMapping
     public CompletableFuture<ResponseEntity<Payment>> createPayment(@RequestBody PaymentRequest paymentRequest) {
-        return paymentService.processPaymentAsync(paymentRequest.getOrderId(), paymentRequest.getAmount(), paymentRequest.getStatus())
+        return paymentService.processPaymentAsync(
+            paymentRequest.getOrderId(), 
+            paymentRequest.getAmount(), 
+            paymentRequest.getPaymentMethod(),
+            paymentRequest.getPaymentDetails()
+            )
                 .thenApply(ResponseEntity::ok);
     }
 

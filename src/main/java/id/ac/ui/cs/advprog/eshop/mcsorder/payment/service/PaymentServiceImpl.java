@@ -9,6 +9,7 @@ import id.ac.ui.cs.advprog.eshop.mcsorder.payment.observer.PaymentNotificationSe
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.observer.PaymentSubject;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.repository.PaymentRepository;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.strategy.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -39,22 +40,31 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Async
-    public CompletableFuture<Payment> processPaymentAsync(Long orderId, double amount, String paymentMethod) {
+    public CompletableFuture<Payment> processPaymentAsync(
+        Long orderId,
+        double amount, 
+        String paymentMethod, 
+        String paymentDetails
+        ) {
+
         return CompletableFuture.supplyAsync(() -> {
             PaymentContext context = new PaymentContext();
 
             switch (paymentMethod) {
                 case "CREDIT_CARD":
-                    context.setPaymentStrategy(new CreditCardPayment("1234-5678-9876-5432", "John Doe", "12/23"));
+                    String[] ccDetails = paymentDetails.split(",");
+                    context.setPaymentStrategy(new CreditCardPayment(ccDetails[0], ccDetails[1], ccDetails[2]));
                     break;
                 case "DEBIT_CARD":
-                    context.setPaymentStrategy(new DebitCardPayment("4321-8765-6789-2345", "Jane Doe", "11/24"));
+                    String[] dcDetails = paymentDetails.split(",");
+                    context.setPaymentStrategy(new DebitCardPayment(dcDetails[0], dcDetails[1], dcDetails[2]));
                     break;
                 case "GOPAY":
-                    context.setPaymentStrategy(new GopayPayment("GOPAY-12345"));
+                    context.setPaymentStrategy(new GopayPayment(paymentDetails));
                     break;
                 case "PAYPAL":
-                    context.setPaymentStrategy(new PayPalPayment("john.doe@example.com", "password"));
+                    String[] ppDetails = paymentDetails.split(",");
+                    context.setPaymentStrategy(new PayPalPayment(ppDetails[0], ppDetails[1]));
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown payment method: " + paymentMethod);
@@ -62,10 +72,11 @@ public class PaymentServiceImpl implements PaymentService {
 
             context.pay(amount);
 
-            Payment payment = PaymentFactory.createPayment(orderId, amount, paymentMethod);
+            Payment payment = PaymentFactory.createPayment(orderId, amount, paymentMethod, "PENDING");
             Payment createdPayment = paymentRepository.save(payment);
             paymentSubject.notifyObservers("Payment processed: " + createdPayment.getId());
             return createdPayment;
+
         });
     }
 

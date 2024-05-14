@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,4 +24,7 @@ public class Payment {
     private double amount;
     private LocalDateTime paymentDate;
     private String status;
+    private String paymentMethod;
+    private String validationStatus = "PENDING";
+    
 }

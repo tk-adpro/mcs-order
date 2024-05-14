@@ -14,7 +14,6 @@ public class CreditCardPayment implements PaymentStrategy {
 
     @Override
     public void pay(double amount) {
-        // Simulasi logika pembayaran dengan kartu kredit
         System.out.println("Paid " + amount + " using Credit Card.");
         System.out.println("Card Holder: " + cardHolderName + ", Card Number: " + cardNumber + ", Expiry Date: " + cardExpiryDate);
     }

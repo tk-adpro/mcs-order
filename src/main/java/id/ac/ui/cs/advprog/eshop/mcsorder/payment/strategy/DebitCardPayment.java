@@ -14,7 +14,6 @@ public class DebitCardPayment implements PaymentStrategy {
 
     @Override
     public void pay(double amount) {
-        // Simulasi logika pembayaran dengan kartu debit
         System.out.println("Paid " + amount + " using Debit Card.");
         System.out.println("Card Holder: " + cardHolderName + ", Card Number: " + cardNumber + ", Expiry Date: " + cardExpiryDate);
     }
