@@ -102,6 +102,30 @@ Before you can run the MCS Order Service, you need to have the following install
 - **Path Parameters**:
   - `paymentId`: The ID of the payment to update.
 
+## Monitoring with Grafana and Prometheus
+
+To monitor the MCS Order Service using Prometheus and Grafana, follow these steps:
+
+1. Start Prometheus and Grafana using Docker:
+
+    ```bash
+    docker-compose up -d
+    ```
+
+2. Access Prometheus:
+   1. Open your browser and navigate to http://localhost:9090.
+  
+3.	Access Grafana:
+  - Open your browser and navigate to http://localhost:3000.
+     - Default login credentials: admin / admin
+     - Add Prometheus as a data source:
+     - Navigate to Configuration > Data Sources.
+     - Click Add data source and select Prometheus.
+     - Set the URL to http://prometheus:9090 and click Save & Test.
+  
+4. Create or Import Grafana Dashboards:
+    - Create a new dashboard or import existing dashboards to visualize the metrics collected by Prometheus.
+
 ## Documentation
 
 Swagger:
