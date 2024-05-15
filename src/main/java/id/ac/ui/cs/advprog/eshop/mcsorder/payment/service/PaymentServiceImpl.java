@@ -24,6 +24,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     private final PaymentSubject paymentSubject;
 
     public PaymentServiceImpl(SimpMessagingTemplate messagingTemplate) {
@@ -35,6 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment createPayment(Payment payment) {
         Payment createdPayment = paymentRepository.save(payment);
         paymentSubject.notifyObservers("Payment created: " + createdPayment.getId());
+        messagingTemplate.convertAndSend("/topic/payments", "Payment created: " + createdPayment.getId());
         return createdPayment;
     }
 
@@ -75,6 +79,7 @@ public class PaymentServiceImpl implements PaymentService {
             Payment payment = PaymentFactory.createPayment(orderId, amount, paymentMethod, "PENDING");
             Payment createdPayment = paymentRepository.save(payment);
             paymentSubject.notifyObservers("Payment processed: " + createdPayment.getId());
+            messagingTemplate.convertAndSend("/topic/payments", "Payment processed: " + createdPayment.getId());
             return createdPayment;
 
         });
@@ -94,5 +99,6 @@ public class PaymentServiceImpl implements PaymentService {
     public void deletePayment(Long id) {
         paymentRepository.deleteById(id);
         paymentSubject.notifyObservers("Payment deleted: " + id);
+        messagingTemplate.convertAndSend("/topic/payments", "Payment deleted: " + id);
     }
 }
