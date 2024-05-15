@@ -6,6 +6,8 @@ public class PaymentRequest {
     private Long orderId;
     private double amount;
     private String status;
+    private String paymentMethod;
+    private String paymentDetails;
 
     // Getters and setters
     public Long getOrderId() {
@@ -30,5 +32,21 @@ public class PaymentRequest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentDetails() {
+        return paymentDetails;
+    }
+
+    public void setPaymentDetails(String paymentDetails) {
+        this.paymentDetails = paymentDetails;
     }
 }

@@ -3,11 +3,9 @@ package id.ac.ui.cs.advprog.eshop.mcsorder.payment.strategy;
 
 public class PayPalPayment implements PaymentStrategy {
     private String email;
-    private String password;
 
     public PayPalPayment(String email, String password) {
         this.email = email;
-        this.password = password;
     }
 
     @Override

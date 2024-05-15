@@ -10,7 +10,6 @@ public class OrderRequest {
     private String customerName;
     private List<OrderItem> items;
 
-    // Getters and setters
     public String getCustomerName() {
         return customerName;
     }

@@ -44,63 +44,10 @@ Before you can run the MCS Order Service, you need to have the following install
    ```
 
 
-## API Endpoints
+## Service API Endpoints
 
-### Order Endpoints
-
-#### Create Order
-
-- **Endpoint**: `POST /api/orders`
-- **Description**: Allows customers to add products to their cart and create an order.
-
-#### Get Order
-- **Endpoint**: `GET /api/orders/{orderId}`
-- **Description**: Retrieves the current status and details of a specific order.
-- **Required Parameters**:
-  - `orderId`: The ID of the order to retrieve.
-
-#### List Orders
-- **Endpoint**: `GET /api/orders`
-- **Description**: Retrieves a list of all orders.
-
-#### Delete Order
-- **Endpoint**: `DELETE /api/orders/{orderId}`
-- **Description**: Deletes a specific order based on the order ID provided.
-- **Required Parameters**:
-  - `orderId`: The ID of the order to delete.
-
-#### Update Order
-- **Endpoint**: `PUT /api/orders/{orderId}`
-- **Description**: Updates the details of an existing order.
-- **Required Parameters**:
-  - `orderId`: The ID of the order to update.
-
-### Payment Endpoints
-
-#### Get Payment
-
-- **Endpoint**: `GET /api/payments/{paymentId}`
-- **Description**: Retrieves the details of a specific payment.
-- **Path Parameters**:
-  - `paymentId`: The ID of the payment to retrieve.
-
-#### List Payments
-
-- **Endpoint**: `GET /api/payments`
-- **Description**: Retrieves a list of all payments.
-
-#### Delete Payment
-
-- **Endpoint**: `DELETE /api/payments/{paymentId}`
-- **Description**: Deletes a specific payment based on the payment ID provided.
-- **Path Parameters**:
-  - `paymentId`: The ID of the payment to delete.
-
-#### Update Payment
-- **Endpoint**: `PUT /api/payments/{paymentId}`
-- **Description**: Updates the details of an existing payment.
-- **Path Parameters**:
-  - `paymentId`: The ID of the payment to update.
+1. [Order Service Readme](./src/main/java/id/ac/ui/cs/advprog/eshop/mcsorder/order/README-Order.md).
+2. [Payment Service Readme](./src/main/java/id/ac/ui/cs/advprog/eshop/mcsorder/payment/README-Payment.md).
 
 ## Monitoring with Grafana and Prometheus
 

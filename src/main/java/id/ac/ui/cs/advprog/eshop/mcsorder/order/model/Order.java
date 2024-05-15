@@ -5,13 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.Getter; 
 import lombok.Setter;
 import id.ac.ui.cs.advprog.eshop.mcsorder.observer.OrderStatusObserver;
@@ -24,8 +18,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    private Long customerId;
+    private Double total;
     private LocalDateTime orderDate;
     private String customerName;
+    private String status = "PENDING";
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
@@ -48,7 +45,7 @@ public class Order {
     }
 
     public void setStatus(String status) {
+        this.status = status;
         notifyObservers(status);
     }
 }
-
