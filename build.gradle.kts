@@ -9,10 +9,7 @@ plugins {
 group = "id.ac.ui.cs.advprog.eshop"
 version = "0.0.1-SNAPSHOT"
 
-java.sourceCompatibility = JavaVersion.VERSION_17
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-}
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 configurations {
     compileOnly {
@@ -44,7 +41,8 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
-     implementation("io.micrometer:micrometer-core")
+    implementation("io.micrometer:micrometer-core")
+    implementation("javax.servlet:javax.servlet-api:4.0.1")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
