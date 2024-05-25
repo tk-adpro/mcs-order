@@ -1,18 +1,18 @@
 name: CI
 
 env:
-    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-    POSTGRES_DB: ${{ secrets.NAMA_DATABASE }}
-    POSTGRES_HOST: postgres
-    POSTGRES_PORT: 5432
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: mypassword
-    REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
-    IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
-    IMAGE_TAG: latest
-    CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-    GCP_USERNAME: ${{ secrets.GCP_USERNAME }}
-    GCP_STATIC_IP: ${{ secrets.GCP_STATIC_IP }}
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  POSTGRES_DB: ${{ secrets.NAMA_DATABASE }}
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: mypassword
+  REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+  IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+  IMAGE_TAG: latest
+  CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
+  GCP_USERNAME: ${{ secrets.GCP_USERNAME }}
+  GCP_STATIC_IP: ${{ secrets.GCP_STATIC_IP }}
 
 on:
   push:
@@ -157,15 +157,8 @@ jobs:
       - name: Deploy to GCP
         run: |
           ssh -o StrictHostKeyChecking=no -i ssh-key.pem ${{ secrets.GCP_USERNAME }}@${{ secrets.GCP_STATIC_IP }} "
-            echo 'Stopping existing container...' &&
-            sudo docker stop ${{ secrets.CONTAINER_NAME }}  || true && 
-            echo 'Removing existing container...' &&
-            sudo docker container rm -f ${{ secrets.CONTAINER_NAME }}  || true && 
-            echo 'Removing existing image...' &&
-            sudo docker image rm -f ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}  || true &&
-            echo 'Pulling new image...' &&
+            sudo docker stop ${{ secrets.CONTAINER_NAME }} || true && 
+            sudo docker container rm -f ${{ secrets.CONTAINER_NAME }} || true && 
+            sudo docker image rm -f ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} || true &&
             sudo docker pull ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} && 
-            echo 'Running new container...' &&
-            sudo docker run --name ${{ secrets.CONTAINER_NAME }} --restart unless-stopped -d -p 80:8080 ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} &&
-            echo 'Deployment complete.' &&
-            exit"
+            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 80:8080 ${{ secrets.REGISTRY_USER }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}"
