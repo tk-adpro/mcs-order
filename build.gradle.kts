@@ -3,18 +3,14 @@ plugins {
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
     jacoco
-    id("pmd")
 }
 
 group = "id.ac.ui.cs.advprog.eshop"
 version = "0.0.1-SNAPSHOT"
 
-java.sourceCompatibility = JavaVersion.VERSION_21
-
-configurations {
-    compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -65,19 +61,5 @@ tasks.withType<Test> {
 
 tasks.test {
     useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport) 
-}
-
-pmd {
-    toolVersion = "7.0.0-rc4"
-    sourceSets = listOf(project.sourceSets.main.get())
-    ruleSets = listOf("rulesets/java/quickstart.xml", "ruleset.xml")
-    isIgnoreFailures = true
-}
-
-tasks.withType<Pmd> {
-    reports {
-        xml.required.set(true)
-        xml.outputLocation.set(file("build/reports/pmd/main.xml"))
-    }
+    finalizedBy(tasks.jacocoTestReport)
 }
