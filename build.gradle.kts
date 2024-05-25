@@ -53,6 +53,9 @@ dependencies {
     testImplementation("org.mockito:mockito-junit-jupiter")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+
+    runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.postgresql:postgresql")
 }
 
 tasks.withType<Test> {
