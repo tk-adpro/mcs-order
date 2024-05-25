@@ -8,11 +8,12 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.Getter; 
 import lombok.Setter;
-import id.ac.ui.cs.advprog.eshop.mcsorder.observer.OrderStatusObserver;
+import id.ac.ui.cs.advprog.eshop.mcsorder.order.observer.OrderStatusObserver;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "ORDERS")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,7 @@ public class Order {
     private String customerName;
     private String status = "PENDING";
     
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
 
     @Transient
