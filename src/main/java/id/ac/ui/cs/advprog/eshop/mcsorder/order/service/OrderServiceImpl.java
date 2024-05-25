@@ -11,7 +11,6 @@ import id.ac.ui.cs.advprog.eshop.mcsorder.order.observer.OrderSubject;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.repository.OrderRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +23,18 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
-
     private final OrderSubject orderSubject;
 
-    public OrderServiceImpl(SimpMessagingTemplate messagingTemplate) {
+    @Autowired
+    public OrderServiceImpl() {
         this.orderSubject = new OrderSubject();
-        orderSubject.addObserver(new OrderNotificationService(messagingTemplate));
+        this.orderSubject.addObserver(new OrderNotificationService());
     }
 
     @Override
     public Order createOrder(Order order) {
         Order createdOrder = orderRepository.save(order);
         orderSubject.notifyObservers("Order created: " + createdOrder.getId());
-        messagingTemplate.convertAndSend("/topic/orders", "Order created: " + createdOrder.getId());
         return createdOrder;
     }
 
@@ -49,7 +45,6 @@ public class OrderServiceImpl implements OrderService {
             Order order = OrderFactory.createOrder(customerName, items);
             Order createdOrder = orderRepository.save(order);
             orderSubject.notifyObservers("Order created: " + createdOrder.getId());
-            messagingTemplate.convertAndSend("/topic/orders", "Order created: " + createdOrder.getId());
             return createdOrder;
         });
     }
@@ -68,6 +63,5 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
         orderSubject.notifyObservers("Order deleted: " + id);
-        messagingTemplate.convertAndSend("/topic/orders", "Order deleted: " + id);
     }
 }

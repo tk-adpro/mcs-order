@@ -26,8 +26,7 @@ public class PaymentController {
             paymentRequest.getAmount(), 
             paymentRequest.getPaymentMethod(),
             paymentRequest.getPaymentDetails()
-            )
-                .thenApply(ResponseEntity::ok);
+            ).thenApply(ResponseEntity::ok);
     }
 
     @GetMapping
