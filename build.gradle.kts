@@ -64,3 +64,20 @@ tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
 }
+
+afterEvaluate {
+    tasks.jacocoTestReport {
+        dependsOn(tasks.test)
+        classDirectories.setFrom(files(classDirectories.files.map {
+            fileTree(it) {
+                exclude("**/config/**")
+                exclude("**/utils/**")
+                exclude("**/McsAuthenticationApplication.class")
+            }
+        }))
+        reports {
+            xml.required = true
+            html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
+        }
+    }
+}
