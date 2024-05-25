@@ -49,7 +49,6 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
-    testImplementation("com.h2database:h2")
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.mockito:mockito-junit-jupiter")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
@@ -72,7 +71,7 @@ afterEvaluate {
             fileTree(it) {
                 exclude("**/config/**")
                 exclude("**/utils/**")
-                exclude("**/McsAuthenticationApplication.class")
+                exclude("**/McsOrderApplication.class")
             }
         }))
         reports {
