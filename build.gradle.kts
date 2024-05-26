@@ -34,6 +34,7 @@ dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-core")
     implementation("javax.servlet:javax.servlet-api:4.0.1")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.13")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
