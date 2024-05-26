@@ -52,4 +52,11 @@ public class PaymentController {
         paymentService.deletePayment(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/status/{validationStatus}")
+    @Operation(summary = "Get payments by validation status")
+    public ResponseEntity<List<Payment>> getPaymentsByValidationStatus(@PathVariable String validationStatus) {
+        return ResponseEntity.ok(paymentService.getPaymentsByValidationStatus(validationStatus));
+    }
+
 }

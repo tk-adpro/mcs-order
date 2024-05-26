@@ -106,4 +106,10 @@ public class PaymentServiceImpl implements PaymentService {
         paymentRepository.deleteById(id);
         paymentSubject.notifyObservers("Payment deleted: " + id);
     }
+
+    @Override
+    public List<Payment> getPaymentsByValidationStatus(String validationStatus) {
+        return paymentRepository.findByValidationStatus(validationStatus);
+    }
+
 }
