@@ -12,4 +12,5 @@ public interface PaymentService {
     List<Payment> getAllPayments();
     Payment getPaymentById(Long id);
     void deletePayment(Long id);
+    List<Payment> getPaymentsByValidationStatus(String validationStatus);
 }
