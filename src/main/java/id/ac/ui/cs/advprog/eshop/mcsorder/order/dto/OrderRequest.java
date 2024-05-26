@@ -5,24 +5,18 @@ package id.ac.ui.cs.advprog.eshop.mcsorder.order.dto;
 import java.util.List;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.OrderItem;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class OrderRequest {
+    @NotBlank(message = "Customer name cannot be blank")
     private String customerName;
+
+    @NotNull(message = "Items cannot be null")
     private List<OrderItem> items;
 
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public List<OrderItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
 }

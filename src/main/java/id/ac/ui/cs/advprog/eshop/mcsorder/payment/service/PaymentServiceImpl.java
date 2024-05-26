@@ -2,7 +2,9 @@
 package id.ac.ui.cs.advprog.eshop.mcsorder.payment.service;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.domain.PaymentService;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.exception.InvalidPaymentDetailsException;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.exception.PaymentNotFoundException;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.exception.PaymentProcessingException;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.factory.PaymentFactory;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.observer.PaymentNotificationService;
@@ -38,6 +40,33 @@ public class PaymentServiceImpl implements PaymentService {
         return createdPayment;
     }
 
+    private PaymentStrategy getPaymentStrategy(String paymentMethod, String paymentDetails) {
+        switch (paymentMethod) {
+            case "CREDIT_CARD":
+                String[] ccDetails = paymentDetails.split(",");
+                if (ccDetails.length != 3) {
+                    throw new InvalidPaymentDetailsException("Invalid credit card details");
+                }
+                return new CreditCardPayment(ccDetails[0], ccDetails[1], ccDetails[2]);
+            case "DEBIT_CARD":
+                String[] dcDetails = paymentDetails.split(",");
+                if (dcDetails.length != 3) {
+                    throw new InvalidPaymentDetailsException("Invalid debit card details");
+                }
+                return new DebitCardPayment(dcDetails[0], dcDetails[1], dcDetails[2]);
+            case "GOPAY":
+                return new GopayPayment(paymentDetails);
+            case "PAYPAL":
+                String[] ppDetails = paymentDetails.split(",");
+                if (ppDetails.length != 2) {
+                    throw new InvalidPaymentDetailsException("Invalid PayPal details");
+                }
+                return new PayPalPayment(ppDetails[0], ppDetails[1]);
+            default:
+                throw new IllegalArgumentException("Unknown payment method: " + paymentMethod);
+        }
+    }
+
     @Override
     @Async
     public CompletableFuture<Payment> processPaymentAsync(
@@ -46,37 +75,19 @@ public class PaymentServiceImpl implements PaymentService {
             String paymentMethod,
             String paymentDetails
     ) {
-
         return CompletableFuture.supplyAsync(() -> {
-            PaymentContext context = new PaymentContext();
+            try {
+                PaymentContext context = new PaymentContext();
+                context.setPaymentStrategy(getPaymentStrategy(paymentMethod, paymentDetails));
+                context.pay(amount);
 
-            switch (paymentMethod) {
-                case "CREDIT_CARD":
-                    String[] ccDetails = paymentDetails.split(",");
-                    context.setPaymentStrategy(new CreditCardPayment(ccDetails[0], ccDetails[1], ccDetails[2]));
-                    break;
-                case "DEBIT_CARD":
-                    String[] dcDetails = paymentDetails.split(",");
-                    context.setPaymentStrategy(new DebitCardPayment(dcDetails[0], dcDetails[1], dcDetails[2]));
-                    break;
-                case "GOPAY":
-                    context.setPaymentStrategy(new GopayPayment(paymentDetails));
-                    break;
-                case "PAYPAL":
-                    String[] ppDetails = paymentDetails.split(",");
-                    context.setPaymentStrategy(new PayPalPayment(ppDetails[0], ppDetails[1]));
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown payment method: " + paymentMethod);
+                Payment payment = PaymentFactory.createPayment(orderId, amount, paymentMethod, "PENDING");
+                Payment createdPayment = paymentRepository.save(payment);
+                paymentSubject.notifyObservers("Payment processed: " + createdPayment.getId());
+                return createdPayment;
+            } catch (Exception e) {
+                throw new PaymentProcessingException("Failed to process payment", e);
             }
-
-            context.pay(amount);
-
-            Payment payment = PaymentFactory.createPayment(orderId, amount, paymentMethod, "PENDING");
-            Payment createdPayment = paymentRepository.save(payment);
-            paymentSubject.notifyObservers("Payment processed: " + createdPayment.getId());
-            return createdPayment;
-
         });
     }
 

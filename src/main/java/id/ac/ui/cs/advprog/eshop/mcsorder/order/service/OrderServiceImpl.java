@@ -9,6 +9,9 @@ import id.ac.ui.cs.advprog.eshop.mcsorder.order.model.OrderItem;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.observer.OrderNotificationService;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.observer.OrderSubject;
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.repository.OrderRepository;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.dto.PaymentRequest;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.model.Payment;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.domain.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -22,6 +25,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentService paymentService;
 
     private final OrderSubject orderSubject;
 
@@ -61,7 +67,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(Long id) {
+        if (!orderRepository.existsById(id)) {
+            throw new OrderNotFoundException(id);
+        }
         orderRepository.deleteById(id);
         orderSubject.notifyObservers("Order deleted: " + id);
+    }
+
+    public CompletableFuture<Payment> processPaymentForOrder(Long orderId, PaymentRequest paymentRequest) {
+        return paymentService.processPaymentAsync(
+                paymentRequest.getOrderId(),
+                paymentRequest.getAmount(),
+                paymentRequest.getPaymentMethod(),
+                paymentRequest.getPaymentDetails()
+        );
     }
 }

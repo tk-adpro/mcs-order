@@ -80,3 +80,22 @@
            ]
          }'
   ```
+
+### Process Payment for Order
+
+- **Endpoint**: POST /api/orders/{orderId}/payment 
+- **Description**: Processes payment for a specific order. 
+- **Required Parameters**:
+  - `orderId`: The ID of the order to process payment for.
+- **Contoh penggunaan**:
+  ```bash
+  curl -X POST http://localhost:8080/api/orders/{orderId}/payment \
+   -H "Content-Type: application/json" \
+   -d '{
+         "orderId": 123,
+         "amount": 50000,
+         "paymentMethod": "CREDIT_CARD",
+         "paymentDetails": "4111111111111111, John Doe, 12/25"
+       }'
+
+```
