@@ -3,6 +3,8 @@ package id.ac.ui.cs.advprog.eshop.mcsorder.exception;
 
 import id.ac.ui.cs.advprog.eshop.mcsorder.order.exception.OrderNotFoundException;
 import id.ac.ui.cs.advprog.eshop.mcsorder.payment.exception.PaymentNotFoundException;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.exception.InvalidPaymentDetailsException;
+import id.ac.ui.cs.advprog.eshop.mcsorder.payment.exception.PaymentProcessingException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +37,27 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+
+    @ExceptionHandler(InvalidPaymentDetailsException.class)
+    public ResponseEntity<Object> handleInvalidPaymentDetailsException(InvalidPaymentDetailsException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PaymentProcessingException.class)
+    public ResponseEntity<Object> handlePaymentProcessingException(PaymentProcessingException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
+
+
+
 
